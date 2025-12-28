@@ -1,136 +1,134 @@
---// ===== CONFIG =====
-local HUB_NAME = "Banana Cat Hub"      -- 👈 đổi tên ở đây
-local HUB_SUB  = "Blox Fruits"
-local LOGO_ID  = "rbxassetid://75684118813767" -- 👈 đổi logo ở đây
+--================ CONFIG =================
+local HUB_NAME = "Banana Cat Hub [Premium]"
+local HUB_VER  = "Blox Fruits"
+local LOGO_ID  = "rbxassetid://75684118813767" -- đổi logo
 
---// ===== SERVICES =====
-local Players = game:GetService("Players")
+--================ SERVICES =================
 local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
---// ===== GUI =====
+--================ GUI =================
 local gui = Instance.new("ScreenGui", player.PlayerGui)
-gui.Name = "BananaCatUI"
+gui.Name = "BananaCatClone"
 gui.ResetOnSpawn = false
 
---// ===== MAIN FRAME =====
+--================ MAIN =================
 local main = Instance.new("Frame", gui)
-main.Size = UDim2.fromScale(0,0)
-main.Position = UDim2.fromScale(0.5,0.5)
 main.AnchorPoint = Vector2.new(0.5,0.5)
-main.BackgroundColor3 = Color3.fromRGB(20,20,20)
-main.BackgroundTransparency = 0.1
-Instance.new("UICorner", main).CornerRadius = UDim.new(0,16)
+main.Position = UDim2.fromScale(0.5,0.5)
+main.Size = UDim2.fromScale(0,0)
+main.BackgroundColor3 = Color3.fromRGB(25,25,25)
+main.BackgroundTransparency = 0.05
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,14)
 
---// OPEN ANIMATION
-TweenService:Create(
-	main,
-	TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-	{Size = UDim2.fromScale(0.6,0.6)}
-):Play()
+TweenService:Create(main, TweenInfo.new(0.35), {
+	Size = UDim2.fromScale(0.55,0.55)
+}):Play()
 
---// ===== TOP BAR =====
+--================ TOP =================
 local top = Instance.new("Frame", main)
-top.Size = UDim2.new(1,0,0,50)
+top.Size = UDim2.new(1,0,0,45)
 top.BackgroundTransparency = 1
 
 local logo = Instance.new("ImageLabel", top)
 logo.Image = LOGO_ID
-logo.Size = UDim2.fromOffset(36,36)
+logo.Size = UDim2.fromOffset(30,30)
 logo.Position = UDim2.fromOffset(10,7)
 logo.BackgroundTransparency = 1
 
 local title = Instance.new("TextLabel", top)
-title.Text = HUB_NAME.." - "..HUB_SUB
-title.Position = UDim2.fromOffset(55,0)
+title.Text = HUB_NAME
+title.Position = UDim2.fromOffset(50,0)
 title.Size = UDim2.new(1,-60,1,0)
 title.TextXAlignment = Left
-title.TextColor3 = Color3.fromRGB(255,221,87)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 18
+title.TextSize = 16
+title.TextColor3 = Color3.fromRGB(255,220,120)
 title.BackgroundTransparency = 1
 
---// ===== SIDEBAR =====
-local side = Instance.new("Frame", main)
-side.Position = UDim2.new(0,0,0,50)
-side.Size = UDim2.new(0,180,1,-50)
-side.BackgroundColor3 = Color3.fromRGB(15,15,15)
-Instance.new("UICorner", side).CornerRadius = UDim.new(0,12)
+--================ LEFT TAB =================
+local left = Instance.new("Frame", main)
+left.Position = UDim2.new(0,0,0,45)
+left.Size = UDim2.new(0,180,1,-45)
+left.BackgroundColor3 = Color3.fromRGB(20,20,20)
+Instance.new("UICorner", left).CornerRadius = UDim.new(0,12)
 
---// ===== CONTENT =====
+local function CreateTab(text, y)
+	local b = Instance.new("TextButton", left)
+	b.Text = text
+	b.Size = UDim2.new(1,-20,0,40)
+	b.Position = UDim2.fromOffset(10,y)
+	b.BackgroundColor3 = Color3.fromRGB(30,30,30)
+	b.TextColor3 = Color3.fromRGB(220,220,220)
+	b.Font = Enum.Font.Gotham
+	b.TextSize = 14
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0,8)
+end
+
+CreateTab("Tab Farming", 20)
+CreateTab("Tab Stack Farm", 70)
+CreateTab("Tab Farming Other", 120)
+
+--================ CONTENT =================
 local content = Instance.new("Frame", main)
 content.Position = UDim2.new(0,190,0,60)
 content.Size = UDim2.new(1,-200,1,-70)
 content.BackgroundTransparency = 1
 
---// ===== CREATE TOGGLE =====
-local function CreateToggle(text, y)
-	local frame = Instance.new("Frame", content)
-	frame.Size = UDim2.new(1,0,0,45)
-	frame.Position = UDim2.fromOffset(0,y)
-	frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
-	Instance.new("UICorner", frame).CornerRadius = UDim.new(0,10)
+local header = Instance.new("TextLabel", content)
+header.Text = "Tab Farming"
+header.Size = UDim2.new(1,0,0,30)
+header.Font = Enum.Font.GothamBold
+header.TextSize = 16
+header.TextColor3 = Color3.fromRGB(0,255,200)
+header.BackgroundTransparency = 1
 
-	local lbl = Instance.new("TextLabel", frame)
-	lbl.Text = text
-	lbl.Size = UDim2.new(1,-60,1,0)
-	lbl.Position = UDim2.fromOffset(15,0)
-	lbl.TextXAlignment = Left
-	lbl.TextColor3 = Color3.fromRGB(230,230,230)
-	lbl.Font = Enum.Font.Gotham
-	lbl.TextSize = 14
-	lbl.BackgroundTransparency = 1
+--================ TOGGLE =================
+local function Toggle(text, y)
+	local f = Instance.new("Frame", content)
+	f.Position = UDim2.fromOffset(0,y)
+	f.Size = UDim2.new(1,0,0,45)
+	f.BackgroundColor3 = Color3.fromRGB(30,30,30)
+	Instance.new("UICorner", f).CornerRadius = UDim.new(0,10)
 
-	local btn = Instance.new("TextButton", frame)
-	btn.Size = UDim2.fromOffset(26,26)
-	btn.Position = UDim2.new(1,-36,0.5,-13)
-	btn.Text = ""
-	btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-	Instance.new("UICorner", btn).CornerRadius = UDim.new(1,0)
+	local l = Instance.new("TextLabel", f)
+	l.Text = text
+	l.Size = UDim2.new(1,-60,1,0)
+	l.Position = UDim2.fromOffset(15,0)
+	l.TextXAlignment = Left
+	l.TextColor3 = Color3.fromRGB(240,240,240)
+	l.Font = Enum.Font.Gotham
+	l.TextSize = 14
+	l.BackgroundTransparency = 1
+
+	local t = Instance.new("TextButton", f)
+	t.Size = UDim2.fromOffset(28,28)
+	t.Position = UDim2.new(1,-38,0.5,-14)
+	t.Text = ""
+	t.BackgroundColor3 = Color3.fromRGB(50,50,50)
+	Instance.new("UICorner", t).CornerRadius = UDim.new(1,0)
 
 	local on = false
-	btn.MouseButton1Click:Connect(function()
+	t.MouseButton1Click:Connect(function()
 		on = not on
-		TweenService:Create(
-			btn,
-			TweenInfo.new(0.2),
-			{BackgroundColor3 = on and Color3.fromRGB(0,255,200) or Color3.fromRGB(40,40,40)}
-		):Play()
+		TweenService:Create(t, TweenInfo.new(0.2), {
+			BackgroundColor3 = on and Color3.fromRGB(0,200,160) or Color3.fromRGB(50,50,50)
+		}):Play()
 	end)
 end
 
---// ===== SAMPLE OPTIONS =====
-CreateToggle("Auto Farm Level", 0)
-CreateToggle("Auto Travel Dressrosa", 55)
-CreateToggle("Auto Zou Quest", 110)
-CreateToggle("Auto Farm Nearest", 165)
+Toggle("Start Farm", 40)
+Toggle("Auto Farm Nearest", 95)
+Toggle("Auto Farm Material", 150)
 
---// ===== CLOSE KEY =====
+--================ HOTKEY =================
 game:GetService("UserInputService").InputBegan:Connect(function(i,g)
 	if g then return end
 	if i.KeyCode == Enum.KeyCode.RightControl then
 		gui.Enabled = not gui.Enabled
 	end
-end)main)
-content.Position = UDim2.new(0,250,0,60)
-content.Size = UDim2.new(1,-260,1,-70)
-content.BackgroundTransparency = 1
-
-local section = Instance.new("TextLabel", content)
-section.Size = UDim2.new(1,0,0,30)
-section.Text = "Setting Farm"
-section.Font = Enum.Font.GothamBold
-section.TextSize = 18
-section.TextColor3 = Color3.new(1,1,1)
-section.BackgroundTransparency = 1
-
--- Toggle
-local function toggleItem(text, y)
-    local f = Instance.new("Frame", content)
-    f.Size = UDim2.new(1,0,0,42)
-    f.Position = UDim2.new(0,0,0,y)
-    f.BackgroundColor3 = Color3.fromRGB(32,32,32)
-    f.BorderSizePixel = 0
+end)    f.BorderSizePixel = 0
     Instance.new("UICorner", f).CornerRadius = UDim.new(0,6)
 
     local lbl = Instance.new("TextLabel", f)
