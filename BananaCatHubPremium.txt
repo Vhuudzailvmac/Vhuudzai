@@ -1,0 +1,156 @@
+--// Banana Cat Hub | Premium Style | FULL FIX MOBILE
+
+-- SERVICES
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+
+-- CONFIG
+local HUB_NAME = "Banana Cat Hub [Premium] | Blox Fruits"
+local HUB_BY = "by Vhuu"
+local LOGO_ID = "rbxassetid://83190276951914"
+local COLOR_ACCENT = Color3.fromRGB(0,255,200)
+
+-- REMOVE OLD UI
+pcall(function()
+    player.PlayerGui:FindFirstChild("BananaHubUI"):Destroy()
+end)
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "BananaHubUI"
+gui.Parent = player.PlayerGui
+gui.IgnoreGuiInset = true
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.ResetOnSpawn = false
+
+-- MAIN FRAME
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0,720,0,420)
+main.Position = UDim2.new(0.5,-360,0.5,-210)
+main.BackgroundColor3 = Color3.fromRGB(18,18,18)
+main.BorderSizePixel = 0
+main.Active = true
+main.Selectable = true
+main.ZIndex = 5
+
+-- DRAG (MOBILE + PC)
+do
+    local dragging, dragStart, startPos
+    main.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = main.Position
+        end
+    end)
+
+    main.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) then
+            local delta = input.Position - dragStart
+            main.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+end
+
+-- TOP BAR
+local top = Instance.new("Frame", main)
+top.Size = UDim2.new(1,0,0,55)
+top.BackgroundColor3 = Color3.fromRGB(22,22,22)
+top.BorderSizePixel = 0
+
+local title = Instance.new("TextLabel", top)
+title.Text = HUB_NAME
+title.Size = UDim2.new(1,-60,1,0)
+title.Position = UDim2.new(0,60,0,0)
+title.TextColor3 = COLOR_ACCENT
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.BackgroundTransparency = 1
+title.TextXAlignment = Left
+
+local logo = Instance.new("ImageLabel", top)
+logo.Image = LOGO_ID
+logo.Size = UDim2.new(0,40,0,40)
+logo.Position = UDim2.new(0,10,0.5,-20)
+logo.BackgroundTransparency = 1
+
+-- CONTENT
+local content = Instance.new("Frame", main)
+content.Position = UDim2.new(0,0,0,55)
+content.Size = UDim2.new(1,0,1,-55)
+content.BackgroundColor3 = Color3.fromRGB(15,15,15)
+content.BorderSizePixel = 0
+
+-- BANANA SCRIPT (ĐÃ FIX LINK)
+local BananaURL = "https://raw.githubusercontent.com/LuaCrack/Zis/main/ZisChuoiEng"
+local BananaLoaded = false
+
+-- TOGGLE FUNCTION
+local function createToggle(text, y, callback)
+    local holder = Instance.new("Frame", content)
+    holder.Position = UDim2.new(0,30,0,y)
+    holder.Size = UDim2.new(1,-60,0,55)
+    holder.BackgroundColor3 = Color3.fromRGB(30,30,30)
+    holder.BorderSizePixel = 0
+    holder.ZIndex = 6
+
+    local label = Instance.new("TextLabel", holder)
+    label.Text = text
+    label.Size = UDim2.new(1,-80,1,0)
+    label.Position = UDim2.new(0,15,0,0)
+    label.TextColor3 = Color3.fromRGB(230,230,230)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 16
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Left
+
+    local toggle = Instance.new("TextButton", holder)
+    toggle.Size = UDim2.new(0,36,0,36)
+    toggle.Position = UDim2.new(1,-50,0.5,-18)
+    toggle.BackgroundColor3 = Color3.fromRGB(60,60,60)
+    toggle.Text = ""
+    toggle.AutoButtonColor = false
+    toggle.BorderSizePixel = 0
+    toggle.ZIndex = 7
+
+    local on = false
+    toggle.MouseButton1Click:Connect(function()
+        on = not on
+        toggle.BackgroundColor3 = on and COLOR_ACCENT or Color3.fromRGB(60,60,60)
+        if callback then
+            task.spawn(function()
+                callback(on)
+            end)
+        end
+    end)
+end
+
+-- 🍌 BANANA MODE (AUTO FARM)
+createToggle("🍌 Banana Mode (Auto Farm)", 40, function(state)
+    if state and not BananaLoaded then
+        BananaLoaded = true
+        loadstring(game:HttpGet(BananaURL))()
+    end
+end)
+
+-- INFO TEXT
+local info = Instance.new("TextLabel", content)
+info.Text = "Premium Banana Cat Hub • Mobile Ready"
+info.Size = UDim2.new(1,0,0,30)
+info.Position = UDim2.new(0,0,1,-35)
+info.TextColor3 = Color3.fromRGB(150,150,150)
+info.Font = Enum.Font.Gotham
+info.TextSize = 13
+info.BackgroundTransparency = 1
