@@ -1,0 +1,171 @@
+--// CONFIG
+local HUB_NAME = "Banana Cat Hub - Blox Fruit" -- 🔁 ĐỔI TÊN Ở ĐÂY
+local HUB_ICON = "rbxassetid://75684118813767" -- 🔁 ID LOGO
+
+--// SERVICES
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+--// GUI
+local gui = Instance.new("ScreenGui", player.PlayerGui)
+gui.Name = "HubUI"
+gui.ResetOnSpawn = false
+
+-- MAIN
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0,800,0,460)
+main.Position = UDim2.new(0.5,-400,0.5,-230)
+main.BackgroundColor3 = Color3.fromRGB(20,20,20)
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,14)
+
+-- Stroke
+local stroke = Instance.new("UIStroke", main)
+stroke.Color = Color3.fromRGB(255,215,120)
+stroke.Thickness = 1
+stroke.Transparency = 0.6
+
+-- HEADER
+local header = Instance.new("Frame", main)
+header.Size = UDim2.new(1,0,0,48)
+header.BackgroundColor3 = Color3.fromRGB(30,30,30)
+header.BorderSizePixel = 0
+Instance.new("UICorner", header).CornerRadius = UDim.new(0,14)
+
+local icon = Instance.new("ImageLabel", header)
+icon.Size = UDim2.new(0,28,0,28)
+icon.Position = UDim2.new(0.5,-150,0.5,-14)
+icon.BackgroundTransparency = 1
+icon.Image = HUB_ICON
+Instance.new("UICorner", icon).CornerRadius = UDim.new(1,0)
+
+local title = Instance.new("TextLabel", header)
+title.Size = UDim2.new(0,350,1,0)
+title.Position = UDim2.new(0.5,-115,0,0)
+title.BackgroundTransparency = 1
+title.Text = Banana Cat Hub
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.TextXAlignment = Left
+title.TextColor3 = Color3.fromRGB(255,215,120)
+
+-- SIDEBAR
+local sidebar = Instance.new("Frame", main)
+sidebar.Position = UDim2.new(0,0,0,48)
+sidebar.Size = UDim2.new(0,235,1,-48)
+sidebar.BackgroundColor3 = Color3.fromRGB(18,18,18)
+sidebar.BorderSizePixel = 0
+
+local layout = Instance.new("UIListLayout", sidebar)
+layout.Padding = UDim.new(0,5)
+
+-- Search
+local search = Instance.new("TextBox", sidebar)
+search.Size = UDim2.new(1,-14,0,36)
+search.Position = UDim2.new(0,7,0,6)
+search.PlaceholderText = "Search section or Function"
+search.Font = Enum.Font.Gotham
+search.TextSize = 14
+search.BackgroundColor3 = Color3.fromRGB(28,28,28)
+search.TextColor3 = Color3.new(1,1,1)
+search.BorderSizePixel = 0
+Instance.new("UICorner", search).CornerRadius = UDim.new(0,8)
+
+-- Sidebar item
+local function sideItem(text, active)
+    local f = Instance.new("Frame", sidebar)
+    f.Size = UDim2.new(1,-14,0,34)
+    f.BackgroundColor3 = active and Color3.fromRGB(32,32,32) or Color3.fromRGB(22,22,22)
+    f.BorderSizePixel = 0
+    Instance.new("UICorner", f).CornerRadius = UDim.new(0,6)
+
+    if active then
+        local bar = Instance.new("Frame", f)
+        bar.Size = UDim2.new(0,3,1,0)
+        bar.BackgroundColor3 = Color3.fromRGB(255,215,120)
+        bar.BorderSizePixel = 0
+    end
+
+    local t = Instance.new("TextLabel", f)
+    t.Size = UDim2.new(1,-12,1,0)
+    t.Position = UDim2.new(0,12,0,0)
+    t.BackgroundTransparency = 1
+    t.Text = text
+    t.Font = Enum.Font.Gotham
+    t.TextSize = 14
+    t.TextXAlignment = Left
+    t.TextColor3 = active and Color3.fromRGB(255,215,120) or Color3.fromRGB(210,210,210)
+end
+
+sideItem("Shop")
+sideItem("Status And Server")
+sideItem("LocalPlayer")
+sideItem("Setting Farm", true)
+sideItem("Hold and Select Skill")
+sideItem("Farming")
+sideItem("Stack Farming")
+sideItem("Farming Other")
+sideItem("Fruit and Raid, Dungeon")
+
+-- CONTENT
+local content = Instance.new("Frame", main)
+content.Position = UDim2.new(0,250,0,60)
+content.Size = UDim2.new(1,-260,1,-70)
+content.BackgroundTransparency = 1
+
+local section = Instance.new("TextLabel", content)
+section.Size = UDim2.new(1,0,0,30)
+section.Text = "Setting Farm"
+section.Font = Enum.Font.GothamBold
+section.TextSize = 18
+section.TextColor3 = Color3.new(1,1,1)
+section.BackgroundTransparency = 1
+
+-- Toggle
+local function toggleItem(text, y)
+    local f = Instance.new("Frame", content)
+    f.Size = UDim2.new(1,0,0,42)
+    f.Position = UDim2.new(0,0,0,y)
+    f.BackgroundColor3 = Color3.fromRGB(32,32,32)
+    f.BorderSizePixel = 0
+    Instance.new("UICorner", f).CornerRadius = UDim.new(0,6)
+
+    local lbl = Instance.new("TextLabel", f)
+    lbl.Size = UDim2.new(1,-60,1,0)
+    lbl.Position = UDim2.new(0,12,0,0)
+    lbl.Text = text
+    lbl.Font = Enum.Font.Gotham
+    lbl.TextSize = 14
+    lbl.TextXAlignment = Left
+    lbl.TextColor3 = Color3.fromRGB(230,230,230)
+    lbl.BackgroundTransparency = 1
+
+    local box = Instance.new("Frame", f)
+    box.Size = UDim2.new(0,22,0,22)
+    box.Position = UDim2.new(1,-34,0.5,-11)
+    box.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    box.BorderSizePixel = 0
+    Instance.new("UICorner", box).CornerRadius = UDim.new(0,4)
+
+    local outline = Instance.new("UIStroke", box)
+    outline.Color = Color3.fromRGB(255,215,120)
+
+    local on = false
+    box.InputBegan:Connect(function()
+        on = not on
+        TweenService:Create(box, TweenInfo.new(0.15), {
+            BackgroundColor3 = on and Color3.fromRGB(255,215,120) or Color3.fromRGB(20,20,20)
+        }):Play()
+    end)
+end
+
+toggleItem("Select Weapon", 40)
+toggleItem("Attack No Animation", 90)
+toggleItem("Auto Click", 140)
+toggleItem("Kill Aura With DragonStorm", 190)
+toggleItem("Auto Turn On Buso", 240)
+toggleItem("Auto Turn On Observation", 290)
+toggleItem("Auto Turn On V4", 340)
