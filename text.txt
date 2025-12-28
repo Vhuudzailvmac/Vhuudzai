@@ -49,7 +49,7 @@ fadeBg:Play()
 task.wait(3.5)
 ScreenGui:Destroy()
 local WindUI =
-loadstring(game:HttpGet("https://raw.githubusercontent.com/LuaCrack/Zis/refs/heads/main/ZisChuoiEng"))()
+loadstring(game:HttpGet("https://github.com/Vhuudzailvmac/Vhuudzai/blob/main/REDZ%20hups_1.txt"))()
 
 --🔹 Tạo Window
 local Window = WindUI:CreateWindow({
