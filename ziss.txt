@@ -1,0 +1,84 @@
+--// SIMPLE HUB UI + LOAD ZIS SCRIPT
+
+local CoreGui = game:GetService("CoreGui")
+
+if CoreGui:FindFirstChild("ZisHubUI") then
+    CoreGui.ZisHubUI:Destroy()
+end
+
+local gui = Instance.new("ScreenGui", CoreGui)
+gui.Name = "ZisHubUI"
+gui.ResetOnSpawn = false
+
+-- MAIN FRAME
+local Main = Instance.new("Frame", gui)
+Main.Size = UDim2.new(0, 600, 0, 350)
+Main.Position = UDim2.new(0.5, -300, 0.5, -175)
+Main.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+
+-- TOP BAR
+local Top = Instance.new("Frame", Main)
+Top.Size = UDim2.new(1,0,0,45)
+Top.BackgroundColor3 = Color3.fromRGB(20,20,20)
+Instance.new("UICorner", Top).CornerRadius = UDim.new(0,12)
+
+-- LOGO
+local Logo = Instance.new("ImageLabel", Top)
+Logo.Size = UDim2.new(0,30,0,30)
+Logo.Position = UDim2.new(0,12,0.5,-15)
+Logo.BackgroundTransparency = 1
+Logo.Image = "rbxassetid://3926305904" -- banana icon
+
+-- TITLE
+local Title = Instance.new("TextLabel", Top)
+Title.Position = UDim2.new(0,55,0,0)
+Title.Size = UDim2.new(1,-110,1,0)
+Title.Text = "ZIS HUB | Loader"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+Title.TextColor3 = Color3.new(1,1,1)
+Title.TextXAlignment = Left
+Title.BackgroundTransparency = 1
+
+-- CLOSE
+local Close = Instance.new("TextButton", Top)
+Close.Size = UDim2.new(0,40,0,30)
+Close.Position = UDim2.new(1,-45,0.5,-15)
+Close.Text = "✕"
+Close.Font = Enum.Font.GothamBold
+Close.TextSize = 16
+Close.TextColor3 = Color3.new(1,1,1)
+Close.BackgroundColor3 = Color3.fromRGB(60,60,60)
+Instance.new("UICorner", Close)
+
+Close.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+-- CONTENT
+local Content = Instance.new("Frame", Main)
+Content.Position = UDim2.new(0,0,0,45)
+Content.Size = UDim2.new(1,0,1,-45)
+Content.BackgroundColor3 = Color3.fromRGB(35,35,35)
+
+-- LOAD ZIS BUTTON
+local LoadZis = Instance.new("TextButton", Content)
+LoadZis.Size = UDim2.new(0,260,0,50)
+LoadZis.Position = UDim2.new(0.5,-130,0.5,-25)
+LoadZis.Text = "🍌 LOAD ZIS SCRIPT"
+LoadZis.Font = Enum.Font.GothamBold
+LoadZis.TextSize = 15
+LoadZis.TextColor3 = Color3.new(1,1,1)
+LoadZis.BackgroundColor3 = Color3.fromRGB(255,200,60)
+Instance.new("UICorner", LoadZis)
+
+-- LOAD SCRIPT ZIS
+LoadZis.MouseButton1Click:Connect(function()
+    LoadZis.Text = "Loading..."
+    loadstring(game:HttpGet(
+        "https://raw.githubusercontent.com/LuaCrack/Zis/refs/heads/main/ZisChuoiEng"
+    ))()
+end)
