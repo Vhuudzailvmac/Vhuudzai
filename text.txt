@@ -2,11 +2,11 @@ local CoreGui = game:GetService("StarterGui")
 
 CoreGui:SetCore("SendNotification", {
     Title = "Vhuu_Hub [Premium]",
-    Text = "Đang khởi động script vui lòng fl kênh không bị bắt xuống hầm🤣",
+    Text = "SCRIPT ĐANG ĐC KHỞI ĐỘNG",
     Icon = "rbxassetid://121471149924300",
     Duration = 6
 })
--- 🍎 Téo scrVN 🇻🇳 Cinematic Intro
+-- Vhuudzailvmac Cinematic Intro
 local CoreGui = game:GetService("CoreGui")
 
 -- Giao diện chính
