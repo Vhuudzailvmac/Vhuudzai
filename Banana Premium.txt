@@ -1,144 +1,222 @@
 --==================================================
--- ⚙️ CONFIG
+-- 🍌 BANANA HUB UI (90–100% STYLE) - UI ONLY
 --==================================================
 
+---------------- CONFIG ----------------
 local HUB_NAME = "Banana Hub | Blox Fruits"
-local LOGO_IMAGE = "rbxassetid://75684118813767"
+local LOGO_ID  = "rbxassetid://75684118813767" -- đổi logo ở đây
 
-local REQUIRED_KEY = "9kshwofHDPEhaog"
-getgenv().Key = "9kshwofHDPEhaog" -- 🔑 sửa key ở đây
-
---==================================================
--- 🔒 CHECK KEY (KHÔNG UI)
---==================================================
-
-if getgenv().Key ~= REQUIRED_KEY then
-	warn("Wrong Key!")
-	return
-end
-
---==================================================
--- 🎨 MÀU BANANA
---==================================================
-
-local COLOR_BG = Color3.fromRGB(15,15,15)
-local COLOR_TOP = Color3.fromRGB(25,25,25)
-local COLOR_TAB = Color3.fromRGB(30,30,30)
-local COLOR_YELLOW = Color3.fromRGB(255,220,0)
-
---==================================================
--- 🍌 MAIN HUB UI
---==================================================
+-- Banana color
+local C_BG      = Color3.fromRGB(15,15,15)
+local C_TOP     = Color3.fromRGB(24,24,24)
+local C_SIDE    = Color3.fromRGB(20,20,20)
+local C_PANEL   = Color3.fromRGB(18,18,18)
+local C_ITEM    = Color3.fromRGB(28,28,28)
+local C_YELLOW  = Color3.fromRGB(255,210,0)
+local C_TEXT    = Color3.fromRGB(235,235,235)
+---------------------------------------------------
 
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local Player = Players.LocalPlayer
 
-local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-gui.Name = "BananaHub"
-gui.ResetOnSpawn = false
+-- ScreenGui
+local Gui = Instance.new("ScreenGui")
+Gui.Name = "BananaHubUI"
+Gui.ResetOnSpawn = false
+Gui.Parent = Player.PlayerGui
 
-local main = Instance.new("Frame", gui)
-main.Size = UDim2.new(0,620,0,380)
-main.Position = UDim2.new(0.5,-310,0.5,-190)
-main.BackgroundColor3 = COLOR_BG
-main.Active = true
-main.Draggable = true
-Instance.new("UICorner", main)
+-- MAIN
+local Main = Instance.new("Frame", Gui)
+Main.Size = UDim2.new(0, 680, 0, 420)
+Main.Position = UDim2.new(0.5, -340, 0.5, -210)
+Main.BackgroundColor3 = C_BG
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0,16)
 
 -- TOP BAR
-local top = Instance.new("Frame", main)
-top.Size = UDim2.new(1,0,0,50)
-top.BackgroundColor3 = COLOR_TOP
-Instance.new("UICorner", top)
+local Top = Instance.new("Frame", Main)
+Top.Size = UDim2.new(1,0,0,50)
+Top.BackgroundColor3 = C_TOP
+Instance.new("UICorner", Top).CornerRadius = UDim.new(0,16)
 
-local logo = Instance.new("ImageLabel", top)
-logo.Size = UDim2.new(0,36,0,36)
-logo.Position = UDim2.new(0,10,0.5,-18)
-logo.BackgroundTransparency = 1
-logo.Image = LOGO_IMAGE
-Instance.new("UICorner", logo).CornerRadius = UDim.new(1,0)
+-- LOGO
+local Logo = Instance.new("ImageLabel", Top)
+Logo.Size = UDim2.new(0,32,0,32)
+Logo.Position = UDim2.new(0,14,0,9)
+Logo.BackgroundTransparency = 1
+Logo.Image = LOGO_ID
 
-local title = Instance.new("TextLabel", top)
-title.Position = UDim2.new(0,60,0,0)
-title.Size = UDim2.new(1,-60,1,0)
-title.BackgroundTransparency = 1
-title.Text = HUB_NAME
-title.Font = Enum.Font.GothamBold
-title.TextSize = 16
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.TextColor3 = COLOR_YELLOW
+-- TITLE
+local Title = Instance.new("TextLabel", Top)
+Title.Size = UDim2.new(1,-120,1,0)
+Title.Position = UDim2.new(0,56,0,0)
+Title.Text = HUB_NAME
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+Title.TextXAlignment = Left
+Title.TextColor3 = C_YELLOW
+Title.BackgroundTransparency = 1
 
--- TAB BAR
-local tabs = Instance.new("Frame", main)
-tabs.Position = UDim2.new(0,0,0,50)
-tabs.Size = UDim2.new(0,170,1,-50)
-tabs.BackgroundColor3 = COLOR_TAB
-Instance.new("UICorner", tabs)
+-- CLOSE
+local Close = Instance.new("TextButton", Top)
+Close.Size = UDim2.new(0,36,0,36)
+Close.Position = UDim2.new(1,-46,0,7)
+Close.Text = "✕"
+Close.Font = Enum.Font.GothamBold
+Close.TextSize = 18
+Close.TextColor3 = Color3.new(1,1,1)
+Close.BackgroundColor3 = Color3.fromRGB(170,60,60)
+Instance.new("UICorner", Close)
+Close.MouseButton1Click:Connect(function()
+	Gui:Destroy()
+end)
 
-local pages = {}
+-- SIDEBAR
+local Side = Instance.new("Frame", Main)
+Side.Size = UDim2.new(0,180,1,-50)
+Side.Position = UDim2.new(0,0,0,50)
+Side.BackgroundColor3 = C_SIDE
 
-local function newPage()
-	local p = Instance.new("ScrollingFrame", main)
-	p.Position = UDim2.new(0,170,0,50)
-	p.Size = UDim2.new(1,-170,1,-50)
-	p.ScrollBarImageTransparency = 1
-	p.CanvasSize = UDim2.new(0,0,0,0)
-	p.BackgroundTransparency = 1
-	p.Visible = false
-	table.insert(pages, p)
-	return p
+local SideList = Instance.new("UIListLayout", Side)
+SideList.Padding = UDim.new(0,8)
+SideList.HorizontalAlignment = Center
+SideList.SortOrder = LayoutOrder
+SideList.Padding = UDim.new(0,6)
+
+local Pad = Instance.new("UIPadding", Side)
+Pad.PaddingTop = UDim.new(0,10)
+
+-- CONTENT
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1,-180,1,-50)
+Content.Position = UDim2.new(0,180,0,50)
+Content.BackgroundColor3 = C_PANEL
+
+-- PAGE HOLDER
+local Pages = {}
+
+-- CREATE PAGE
+local function CreatePage(name)
+	local page = Instance.new("ScrollingFrame", Content)
+	page.Size = UDim2.new(1,0,1,0)
+	page.CanvasSize = UDim2.new(0,0,0,0)
+	page.ScrollBarImageTransparency = 1
+	page.Visible = false
+	page.BackgroundTransparency = 1
+
+	local list = Instance.new("UIListLayout", page)
+	list.Padding = UDim.new(0,10)
+
+	local pad = Instance.new("UIPadding", page)
+	pad.PaddingTop = UDim.new(0,12)
+	pad.PaddingLeft = UDim.new(0,12)
+	pad.PaddingRight = UDim.new(0,12)
+
+	Pages[name] = page
+	return page, list
 end
 
-local function tabBtn(text, page, y)
-	local b = Instance.new("TextButton", tabs)
-	b.Position = UDim2.new(0,10,0,y)
-	b.Size = UDim2.new(1,-20,0,40)
-	b.Text = text
-	b.Font = Enum.Font.Gotham
-	b.TextSize = 14
-	b.TextColor3 = Color3.new(1,1,1)
-	b.BackgroundColor3 = Color3.fromRGB(35,35,35)
-	Instance.new("UICorner", b)
-
-	b.MouseButton1Click:Connect(function()
-		for _,p in pairs(pages) do p.Visible = false end
-		page.Visible = true
-	end)
-end
-
-local function toggle(parent, text, y)
-	local btn = Instance.new("TextButton", parent)
-	btn.Position = UDim2.new(0,20,0,y)
-	btn.Size = UDim2.new(0,300,0,42)
-	btn.Text = "[ OFF ] "..text
+-- CREATE TAB BUTTON
+local CurrentTab
+local function CreateTab(name)
+	local btn = Instance.new("TextButton", Side)
+	btn.Size = UDim2.new(1,-16,0,38)
+	btn.Text = name
 	btn.Font = Enum.Font.Gotham
 	btn.TextSize = 14
-	btn.TextColor3 = Color3.new(1,1,1)
-	btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-	Instance.new("UICorner", btn)
+	btn.TextColor3 = C_TEXT
+	btn.BackgroundColor3 = Color3.fromRGB(32,32,32)
+	Instance.new("UICorner", btn).CornerRadius = UDim.new(0,8)
 
-	local on = false
 	btn.MouseButton1Click:Connect(function()
-		on = not on
-		btn.Text = (on and "[ ON ] " or "[ OFF ] ")..text
-		btn.BackgroundColor3 = on and COLOR_YELLOW or Color3.fromRGB(40,40,40)
-		btn.TextColor3 = on and Color3.fromRGB(0,0,0) or Color3.new(1,1,1)
+		if CurrentTab then
+			CurrentTab.BackgroundColor3 = Color3.fromRGB(32,32,32)
+		end
+		CurrentTab = btn
+		btn.BackgroundColor3 = C_YELLOW
+
+		for _,p in pairs(Pages) do
+			p.Visible = false
+		end
+		Pages[name].Visible = true
 	end)
 
-	parent.CanvasSize = UDim2.new(0,0,0,y+70)
+	return btn
 end
 
--- PAGES
-local Farm = newPage()
-local Player = newPage()
-local Settings = newPage()
-Farm.Visible = true
+-- CREATE TOGGLE (BANANA STYLE)
+local function CreateToggle(parent, text)
+	local item = Instance.new("Frame", parent)
+	item.Size = UDim2.new(1,-10,0,42)
+	item.BackgroundColor3 = C_ITEM
+	Instance.new("UICorner", item).CornerRadius = UDim.new(0,10)
 
-tabBtn("Farm", Farm, 10)
-tabBtn("Player", Player, 60)
-tabBtn("Settings", Settings, 110)
+	local label = Instance.new("TextLabel", item)
+	label.Size = UDim2.new(1,-80,1,0)
+	label.Position = UDim2.new(0,12,0,0)
+	label.Text = text
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 14
+	label.TextXAlignment = Left
+	label.TextColor3 = C_TEXT
+	label.BackgroundTransparency = 1
 
-toggle(Farm, "Auto Farm Level", 20)
-toggle(Farm, "Auto Quest", 80)
-toggle(Player, "Speed Boost", 20)
-toggle(Settings, "Close Hub", 20)
+	local toggle = Instance.new("Frame", item)
+	toggle.Size = UDim2.new(0,44,0,22)
+	toggle.Position = UDim2.new(1,-60,0.5,-11)
+	toggle.BackgroundColor3 = Color3.fromRGB(70,70,70)
+	Instance.new("UICorner", toggle).CornerRadius = UDim.new(1,0)
+
+	local dot = Instance.new("Frame", toggle)
+	dot.Size = UDim2.new(0,18,0,18)
+	dot.Position = UDim2.new(0,2,0.5,-9)
+	dot.BackgroundColor3 = Color3.fromRGB(220,220,220)
+	Instance.new("UICorner", dot).CornerRadius = UDim.new(1,0)
+
+	local on = false
+	item.InputBegan:Connect(function()
+		on = not on
+		if on then
+			toggle.BackgroundColor3 = C_YELLOW
+			dot:TweenPosition(UDim2.new(1,-20,0.5,-9),"Out","Quad",0.15,true)
+		else
+			toggle.BackgroundColor3 = Color3.fromRGB(70,70,70)
+			dot:TweenPosition(UDim2.new(0,2,0.5,-9),"Out","Quad",0.15,true)
+		end
+	end)
+end
+
+-- ====== PAGES ======
+local FarmPage = CreatePage("Farm")
+local ItemPage = CreatePage("Items")
+local SettingPage = CreatePage("Settings")
+
+-- ====== TABS ======
+CreateTab("Farm")
+CreateTab("Items")
+CreateTab("Settings")
+
+-- DEFAULT TAB
+CurrentTab = Side:GetChildren()[3]
+CurrentTab.BackgroundColor3 = C_YELLOW
+FarmPage.Visible = true
+
+-- ====== TOGGLES (GIẢ) ======
+CreateToggle(FarmPage, "Auto Farm Level")
+CreateToggle(FarmPage, "Auto Travel Dressrosa")
+CreateToggle(FarmPage, "Auto Zou Quest")
+CreateToggle(FarmPage, "Auto Farm Nearest")
+
+CreateToggle(ItemPage, "Auto Collect Chest")
+CreateToggle(ItemPage, "Auto Store Fruit")
+
+CreateToggle(SettingPage, "White Screen")
+CreateToggle(SettingPage, "Auto Rejoin")
+
+-- AUTO CANVAS
+for _,page in pairs(Pages) do
+	page.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+		page.CanvasSize = UDim2.new(0,0,0,page.UIListLayout.AbsoluteContentSize.Y + 20)
+	end)
+end
