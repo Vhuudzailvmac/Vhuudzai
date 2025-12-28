@@ -1,0 +1,178 @@
+--// Banana Style UI | UI ONLY
+local player = game.Players.LocalPlayer
+
+-- CONFIG
+local HUB_NAME = "Banana Cat Hub [Premium]"
+local HUB_BY   = "by Vhuu"
+local LOGO_ID  = "rbxassetid://83190276951914"
+local COLOR_ACCENT = Color3.fromRGB(0,255,200)
+
+-- GUI
+local gui = Instance.new("ScreenGui", player.PlayerGui)
+gui.Name = "BananaHubUI"
+gui.ResetOnSpawn = false
+
+-- MAIN FRAME
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0,720,0,420)
+main.Position = UDim2.new(0.5,-360,0.5,-210)
+main.BackgroundColor3 = Color3.fromRGB(18,18,18)
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+
+-- SIDEBAR
+local sidebar = Instance.new("Frame", main)
+sidebar.Size = UDim2.new(0,210,1,0)
+sidebar.BackgroundColor3 = Color3.fromRGB(22,22,22)
+sidebar.BorderSizePixel = 0
+
+-- LOGO
+local logo = Instance.new("ImageLabel", sidebar)
+logo.Image = LOGO_ID
+logo.Size = UDim2.new(0,70,0,70)
+logo.Position = UDim2.new(0,15,0,15)
+logo.BackgroundTransparency = 1
+
+-- HUB NAME
+local title = Instance.new("TextLabel", sidebar)
+title.Text = HUB_NAME
+title.Position = UDim2.new(0,95,0,25)
+title.Size = UDim2.new(0,110,0,25)
+title.TextColor3 = COLOR_ACCENT
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.BackgroundTransparency = 1
+title.TextXAlignment = Left
+
+-- BY TEXT
+local by = Instance.new("TextLabel", sidebar)
+by.Text = HUB_BY
+by.Position = UDim2.new(0,95,0,50)
+by.Size = UDim2.new(0,110,0,20)
+by.TextColor3 = Color3.fromRGB(180,180,180)
+by.Font = Enum.Font.Gotham
+by.TextSize = 12
+by.BackgroundTransparency = 1
+by.TextXAlignment = Left
+
+-- CONTENT
+local content = Instance.new("Frame", main)
+content.Position = UDim2.new(0,210,0,0)
+content.Size = UDim2.new(1,-210,1,0)
+content.BackgroundColor3 = Color3.fromRGB(15,15,15)
+content.BorderSizePixel = 0
+
+-- TAB TITLE
+local tabTitle = Instance.new("TextLabel", content)
+tabTitle.Text = "Farm"
+tabTitle.Size = UDim2.new(1,0,0,50)
+tabTitle.TextColor3 = COLOR_ACCENT
+tabTitle.Font = Enum.Font.GothamBold
+tabTitle.TextSize = 20
+tabTitle.BackgroundTransparency = 1
+
+-- TOGGLE FUNCTION
+local function createToggle(text, y)
+    local holder = Instance.new("Frame", content)
+    holder.Position = UDim2.new(0,20,0,y)
+    holder.Size = UDim2.new(1,-40,0,45)
+    holder.BackgroundColor3 = Color3.fromRGB(25,25,25)
+    holder.BorderSizePixel = 0
+
+    local label = Instance.new("TextLabel", holder)
+    label.Text = text
+    label.Position = UDim2.new(0,15,0,0)
+    label.Size = UDim2.new(1,-70,1,0)
+    label.TextColor3 = Color3.fromRGB(230,230,230)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 15
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Left
+
+    local toggle = Instance.new("TextButton", holder)
+    toggle.Size = UDim2.new(0,28,0,28)
+    toggle.Position = UDim2.new(1,-40,0.5,-14)
+    toggle.Text = ""
+    toggle.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    toggle.BorderSizePixel = 0
+
+    local on = false
+    toggle.MouseButton1Click:Connect(function()
+        on = not on
+        toggle.BackgroundColor3 = on and COLOR_ACCENT or Color3.fromRGB(40,40,40)
+    end)
+end
+
+-- TOGGLES (GIỐNG ẢNH)
+createToggle("Auto Farm Level", 70)
+createToggle("Auto Travel Dressrosa", 125)
+createToggle("Auto Zou Quest", 180)
+createToggle("Auto Farm Nearest", 250)
+createToggle("Auto Factory Raid", 305)l.BackgroundTransparency = 1
+
+	local t = Instance.new("TextButton", f)
+	t.Size = UDim2.fromOffset(28,28)
+	t.Position = UDim2.new(1,-38,0.5,-14)
+	t.Text = ""
+	t.BackgroundColor3 = Color3.fromRGB(50,50,50)
+	Instance.new("UICorner", t).CornerRadius = UDim.new(1,0)
+
+	local on = false
+	t.MouseButton1Click:Connect(function()
+		on = not on
+		TweenService:Create(t, TweenInfo.new(0.2), {
+			BackgroundColor3 = on and Color3.fromRGB(0,200,160) or Color3.fromRGB(50,50,50)
+		}):Play()
+	end)
+end
+
+Toggle("Start Farm", 40)
+Toggle("Auto Farm Nearest", 95)
+Toggle("Auto Farm Material", 150)
+
+--================ HOTKEY =================
+game:GetService("UserInputService").InputBegan:Connect(function(i,g)
+	if g then return end
+	if i.KeyCode == Enum.KeyCode.RightControl then
+		gui.Enabled = not gui.Enabled
+	end
+end)    f.BorderSizePixel = 0
+    Instance.new("UICorner", f).CornerRadius = UDim.new(0,6)
+
+    local lbl = Instance.new("TextLabel", f)
+    lbl.Size = UDim2.new(1,-60,1,0)
+    lbl.Position = UDim2.new(0,12,0,0)
+    lbl.Text = text
+    lbl.Font = Enum.Font.Gotham
+    lbl.TextSize = 14
+    lbl.TextXAlignment = Left
+    lbl.TextColor3 = Color3.fromRGB(230,230,230)
+    lbl.BackgroundTransparency = 1
+
+    local box = Instance.new("Frame", f)
+    box.Size = UDim2.new(0,22,0,22)
+    box.Position = UDim2.new(1,-34,0.5,-11)
+    box.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    box.BorderSizePixel = 0
+    Instance.new("UICorner", box).CornerRadius = UDim.new(0,4)
+
+    local outline = Instance.new("UIStroke", box)
+    outline.Color = Color3.fromRGB(255,215,120)
+
+    local on = false
+    box.InputBegan:Connect(function()
+        on = not on
+        TweenService:Create(box, TweenInfo.new(0.15), {
+            BackgroundColor3 = on and Color3.fromRGB(255,215,120) or Color3.fromRGB(20,20,20)
+        }):Play()
+    end)
+end
+
+toggleItem("Select Weapon", 40)
+toggleItem("Attack No Animation", 90)
+toggleItem("Auto Click", 140)
+toggleItem("Kill Aura With DragonStorm", 190)
+toggleItem("Auto Turn On Buso", 240)
+toggleItem("Auto Turn On Observation", 290)
+toggleItem("Auto Turn On V4", 340)
