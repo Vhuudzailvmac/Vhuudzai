@@ -1,126 +1,97 @@
---// MARU HUB UI (UI ONLY)
+--// KAZU HUB | UI ONLY (Inspired by MaruHub)
+
+repeat task.wait() until game:IsLoaded()
 
 local CoreGui = game:GetService("CoreGui")
 
-if CoreGui:FindFirstChild("MaruHubUI") then
-    CoreGui.MaruHubUI:Destroy()
+-- CLEAR OLD
+if CoreGui:FindFirstChild("KazuHubUI") then
+    CoreGui.KazuHubUI:Destroy()
 end
 
-local gui = Instance.new("ScreenGui", CoreGui)
-gui.Name = "MaruHubUI"
-gui.ResetOnSpawn = false
+-- GUI
+local Gui = Instance.new("ScreenGui", CoreGui)
+Gui.Name = "KazuHubUI"
+Gui.ResetOnSpawn = false
 
 -- MAIN
-local Main = Instance.new("Frame", gui)
-Main.Size = UDim2.new(0, 750, 0, 450)
-Main.Position = UDim2.new(0.5, -375, 0.5, -225)
-Main.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+local Main = Instance.new("Frame", Gui)
+Main.Size = UDim2.fromOffset(720, 440)
+Main.Position = UDim2.fromScale(0.5, 0.5)
+Main.AnchorPoint = Vector2.new(0.5, 0.5)
+Main.BackgroundColor3 = Color3.fromRGB(24,24,24)
 Main.Active = true
 Main.Draggable = true
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0,14)
 
 -- TOP BAR
 local Top = Instance.new("Frame", Main)
-Top.Size = UDim2.new(1, 0, 0, 45)
-Top.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Instance.new("UICorner", Top).CornerRadius = UDim.new(0, 12)
+Top.Size = UDim2.new(1,0,0,48)
+Top.BackgroundColor3 = Color3.fromRGB(18,18,18)
+Instance.new("UICorner", Top).CornerRadius = UDim.new(0,14)
 
 -- LOGO
 local Logo = Instance.new("ImageLabel", Top)
-Logo.Size = UDim2.new(0, 30, 0, 30)
-Logo.Position = UDim2.new(0, 12, 0.5, -15)
+Logo.Size = UDim2.fromOffset(32,32)
+Logo.Position = UDim2.fromOffset(12,8)
 Logo.BackgroundTransparency = 1
 Logo.Image = "rbxassetid://121471149924300"
 
 -- TITLE
 local Title = Instance.new("TextLabel", Top)
-Title.Position = UDim2.new(0, 55, 0, 0)
-Title.Size = UDim2.new(1, -100, 1, 0)
-Title.Text = "Maru Hub [Premium]"
-Title.TextXAlignment = Left
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Position = UDim2.new(0,58,0,0)
+Title.Size = UDim2.new(1,-140,1,0)
+Title.Text = "Vhuu HUB [PREMIUM]"
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 16
+Title.TextXAlignment = Left
+Title.TextColor3 = Color3.new(1,1,1)
 Title.BackgroundTransparency = 1
 
 -- CLOSE
 local Close = Instance.new("TextButton", Top)
-Close.Size = UDim2.new(0, 40, 0, 30)
-Close.Position = UDim2.new(1, -45, 0.5, -15)
+Close.Size = UDim2.fromOffset(36,28)
+Close.Position = UDim2.new(1,-44,0.5,-14)
 Close.Text = "✕"
-Close.TextSize = 16
 Close.Font = Enum.Font.GothamBold
+Close.TextSize = 16
 Close.TextColor3 = Color3.new(1,1,1)
-Close.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Close.BackgroundColor3 = Color3.fromRGB(60,60,60)
 Instance.new("UICorner", Close)
 
 Close.MouseButton1Click:Connect(function()
-    gui:Destroy()
+    Gui:Destroy()
 end)
-
--- LEFT MENU
-local Left = Instance.new("Frame", Main)
-Left.Position = UDim2.new(0, 0, 0, 45)
-Left.Size = UDim2.new(0, 200, 1, -45)
-Left.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
-
-local List = Instance.new("UIListLayout", Left)
-List.Padding = UDim.new(0, 8)
-List.HorizontalAlignment = Center
-
-local function Menu(text)
-    local b = Instance.new("TextButton", Left)
-    b.Size = UDim2.new(1, -20, 0, 38)
-    b.Text = text
-    b.Font = Enum.Font.Gotham
-    b.TextSize = 14
-    b.TextColor3 = Color3.fromRGB(220,220,220)
-    b.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    Instance.new("UICorner", b)
-    return b
-end
-
-Menu("🏠 General")
-Menu("⚙ Settings")
-Menu("⚔ Fighting Style")
-Menu("📦 Items Farm")
-Menu("🎯 New Events")
-Menu("🌊 Sea Events")
 
 -- CONTENT
 local Content = Instance.new("Frame", Main)
-Content.Position = UDim2.new(0, 200, 0, 45)
-Content.Size = UDim2.new(1, -200, 1, -45)
-Content.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+Content.Position = UDim2.new(0,0,0,48)
+Content.Size = UDim2.new(1,0,1,-48)
+Content.BackgroundColor3 = Color3.fromRGB(30,30,30)
 
--- CHANGE NAME
-local ChangeName = Instance.new("TextButton", Content)
-ChangeName.Size = UDim2.new(0, 220, 0, 42)
-ChangeName.Position = UDim2.new(0, 20, 0, 20)
-ChangeName.Text = "✏️ Change Hub Name"
-ChangeName.Font = Enum.Font.GothamBold
-ChangeName.TextSize = 14
-ChangeName.TextColor3 = Color3.new(1,1,1)
-ChangeName.BackgroundColor3 = Color3.fromRGB(55,55,55)
-Instance.new("UICorner", ChangeName)
+-- BUTTON CREATOR
+local function Button(text, y, callback)
+    local b = Instance.new("TextButton", Content)
+    b.Size = UDim2.fromOffset(260,44)
+    b.Position = UDim2.fromOffset(20,y)
+    b.Text = text
+    b.Font = Enum.Font.GothamBold
+    b.TextSize = 14
+    b.TextColor3 = Color3.new(1,1,1)
+    b.BackgroundColor3 = Color3.fromRGB(55,55,55)
+    Instance.new("UICorner", b)
 
--- CHANGE LOGO
-local ChangeLogo = Instance.new("TextButton", Content)
-ChangeLogo.Size = UDim2.new(0, 220, 0, 42)
-ChangeLogo.Position = UDim2.new(0, 20, 0, 75)
-ChangeLogo.Text = "🖼 Change Hub Logo"
-ChangeLogo.Font = Enum.Font.GothamBold
-ChangeLogo.TextSize = 14
-ChangeLogo.TextColor3 = Color3.new(1,1,1)
-ChangeLogo.BackgroundColor3 = Color3.fromRGB(55,55,55)
-Instance.new("UICorner", ChangeLogo)
+    b.MouseButton1Click:Connect(function()
+        pcall(callback)
+    end)
+end
 
 -- DATA
 local Names = {
-    "MARU HUB [PREMIUM]",
-    "MARU HUB V2",
-    "BANANA CAT HUB",
-    "CUSTOM HUB"
+    "KAZU HUB",
+    "KAZU HUB [PREMIUM]",
+    "MARU HUB",
+    "BANANA CAT HUB"
 }
 
 local Logos = {
@@ -129,16 +100,17 @@ local Logos = {
     "rbxassetid://3926305904"
 }
 
-local n = 1
-local l = 1
+local n, l = 1, 1
 
-ChangeName.MouseButton1Click:Connect(function()
+-- CHANGE NAME
+Button("✏️ Đổi Tên Hub", 30, function()
     n += 1
     if n > #Names then n = 1 end
     Title.Text = Names[n]
 end)
 
-ChangeLogo.MouseButton1Click:Connect(function()
+-- CHANGE LOGO
+Button("🖼 Đổi Logo Hub", 90, function()
     l += 1
     if l > #Logos then l = 1 end
     Logo.Image = Logos[l]
