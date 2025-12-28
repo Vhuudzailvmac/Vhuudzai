@@ -1,0 +1,188 @@
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player.PlayerGui)
+gui.Name = "BananaHubPremium"
+gui.ResetOnSpawn = false
+
+-- CONFIG IMAGE
+local LOGO_ID = "rbxassetid://123456789" -- CHANGE IMAGE ID HERE
+
+-- MAIN
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0, 600, 0, 380)
+main.Position = UDim2.new(0.5, -300, 0.5, -190)
+main.BackgroundColor3 = Color3.fromRGB(16,16,16)
+main.Active = true
+main.Draggable = true
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,16)
+Instance.new("UIStroke", main).Color = Color3.fromRGB(70,70,70)
+
+-- TOP BAR
+local top = Instance.new("Frame", main)
+top.Size = UDim2.new(1,0,0,48)
+top.BackgroundColor3 = Color3.fromRGB(25,25,25)
+Instance.new("UICorner", top).CornerRadius = UDim.new(0,16)
+
+-- LOGO
+local logo = Instance.new("ImageLabel", top)
+logo.Size = UDim2.new(0,30,0,30)
+logo.Position = UDim2.new(0,12,0,9)
+logo.BackgroundTransparency = 1
+logo.Image = LOGO_ID
+
+-- TITLE
+local title = Instance.new("TextLabel", top)
+title.Size = UDim2.new(1,-120,1,0)
+title.Position = UDim2.new(0,50,0,0)
+title.Text = "Banana Hub [Premium] | Blox Fruits"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 17
+title.TextXAlignment = Left
+title.TextColor3 = Color3.fromRGB(255,210,0)
+title.BackgroundTransparency = 1
+
+-- CLOSE
+local close = Instance.new("TextButton", top)
+close.Size = UDim2.new(0,36,0,36)
+close.Position = UDim2.new(1,-44,0,6)
+close.Text = "✕"
+close.Font = Enum.Font.GothamBold
+close.TextSize = 18
+close.BackgroundColor3 = Color3.fromRGB(170,50,50)
+close.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", close)
+
+close.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
+
+-- MENU
+local menu = Instance.new("Frame", main)
+menu.Size = UDim2.new(0,160,1,-48)
+menu.Position = UDim2.new(0,0,0,48)
+menu.BackgroundColor3 = Color3.fromRGB(22,22,22)
+
+-- CONTENT
+local content = Instance.new("Frame", main)
+content.Size = UDim2.new(1,-160,1,-48)
+content.Position = UDim2.new(0,160,0,48)
+content.BackgroundColor3 = Color3.fromRGB(18,18,18)
+
+-- PAGE SYSTEM
+local pages = {}
+
+local function newPage()
+	local page = Instance.new("ScrollingFrame", content)
+	page.Size = UDim2.new(1,0,1,0)
+	page.CanvasSize = UDim2.new(0,0,0,800)
+	page.ScrollBarImageTransparency = 0.3
+	page.BackgroundTransparency = 1
+	page.Visible = false
+	Instance.new("UIListLayout", page).Padding = UDim.new(0,12)
+	return page
+end
+
+local Farm = newPage()
+local Fruit = newPage()
+local Raid = newPage()
+local PvP = newPage()
+local ESP = newPage()
+local Setting = newPage()
+
+Farm.Visible = true
+pages = {Farm, Fruit, Raid, PvP, ESP, Setting}
+
+-- TAB BUTTON
+local function tab(text, page, y)
+	local b = Instance.new("TextButton", menu)
+	b.Size = UDim2.new(1,-20,0,40)
+	b.Position = UDim2.new(0,10,0,y)
+	b.Text = text
+	b.Font = Enum.Font.GothamBold
+	b.TextSize = 14
+	b.TextColor3 = Color3.new(1,1,1)
+	b.BackgroundColor3 = Color3.fromRGB(35,35,35)
+	Instance.new("UICorner", b)
+
+	b.MouseButton1Click:Connect(function()
+		for _,p in pairs(pages) do p.Visible = false end
+		page.Visible = true
+	end)
+end
+
+tab("🌾 Farming", Farm, 20)
+tab("🍎 Fruits", Fruit, 70)
+tab("🔥 Raid", Raid, 120)
+tab("⚔ PvP", PvP, 170)
+tab("👁 ESP", ESP, 220)
+tab("⚙ Settings", Setting, 270)
+
+-- TOGGLE (PREMIUM STYLE)
+local function toggle(parent, text)
+	local box = Instance.new("Frame", parent)
+	box.Size = UDim2.new(1,-40,0,46)
+	box.BackgroundColor3 = Color3.fromRGB(28,28,28)
+	Instance.new("UICorner", box)
+
+	local lb = Instance.new("TextLabel", box)
+	lb.Size = UDim2.new(1,-80,1,0)
+	lb.Position = UDim2.new(0,12,0,0)
+	lb.Text = text
+	lb.Font = Enum.Font.Gotham
+	lb.TextSize = 14
+	lb.TextXAlignment = Left
+	lb.TextColor3 = Color3.new(1,1,1)
+	lb.BackgroundTransparency = 1
+
+	local sw = Instance.new("Frame", box)
+	sw.Size = UDim2.new(0,46,0,22)
+	sw.Position = UDim2.new(1,-58,0.5,-11)
+	sw.BackgroundColor3 = Color3.fromRGB(90,90,90)
+	Instance.new("UICorner", sw).CornerRadius = UDim.new(1,0)
+
+	local k = Instance.new("Frame", sw)
+	k.Size = UDim2.new(0,18,0,18)
+	k.Position = UDim2.new(0,2,0.5,-9)
+	k.BackgroundColor3 = Color3.fromRGB(230,230,230)
+	Instance.new("UICorner", k).CornerRadius = UDim.new(1,0)
+
+	local on = false
+	sw.InputBegan:Connect(function(i)
+		if i.UserInputType == Enum.UserInputType.MouseButton1 then
+			on = not on
+			if on then
+				sw.BackgroundColor3 = Color3.fromRGB(0,170,0)
+				k:TweenPosition(UDim2.new(1,-20,0.5,-9),"Out","Quad",0.15,true)
+			else
+				sw.BackgroundColor3 = Color3.fromRGB(90,90,90)
+				k:TweenPosition(UDim2.new(0,2,0.5,-9),"Out","Quad",0.15,true)
+			end
+		end
+	end)
+end
+
+-- FARM (UI ONLY)
+toggle(Farm, "Auto Farm Level")
+toggle(Farm, "Auto Boss")
+toggle(Farm, "Auto Quest")
+
+-- FRUIT
+toggle(Fruit, "Auto Collect Fruit")
+toggle(Fruit, "Fruit ESP")
+
+-- RAID
+toggle(Raid, "Auto Raid")
+toggle(Raid, "Kill Aura")
+
+-- PVP
+toggle(PvP, "Auto PvP")
+toggle(PvP, "Aimbot")
+
+-- ESP
+toggle(ESP, "Player ESP")
+toggle(ESP, "Chest ESP")
+
+-- SETTINGS
+toggle(Setting, "White Screen")
+toggle(Setting, "Black Screen")
+toggle(Setting, "Boost FPS")
+toggle(Setting, "Auto Rejoin")
