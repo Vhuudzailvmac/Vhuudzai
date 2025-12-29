@@ -1,8 +1,6 @@
-local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/SLK-gaming/New-Gui/refs/heads/main/New-Redz.lua"))()
-
+local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuaCrack/Zis/refs/heads/main/ZisChuoiEng"))()
 local Window = redzlib:MakeWindow({
-  Title = "Redz Hub [Premium]: Blox Fruits",
-  SubTitle = "By Vhuu",
+  Title = "Banana Cat Hub | Blox Fruits",
   SaveFolder = "Vhuu.lua"
 })
 
@@ -3885,6 +3883,19 @@ TabSettings:AddToggle({
 		circle.Visible = Value
 		print(Value and "🔵 AimBot ON" or "🔴 AimBot OFF")
 	end
+})
+
+
+nd
+})
+
+
+ot OFF")
+	end
+})
+
+
+nd
 })
 
 
