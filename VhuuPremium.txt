@@ -1,0 +1,234 @@
+--// Gravity Hub Rebuild | Blox Fruits
+--// No Key | Full Auto | Sea 1 - Sea 3
+
+repeat task.wait() until game:IsLoaded()
+
+--// SERVICES
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local VirtualUser = game:GetService("VirtualUser")
+local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
+
+local LocalPlayer = Players.LocalPlayer
+local CommF = ReplicatedStorage.Remotes.CommF_
+
+--// ANTI AFK
+LocalPlayer.Idled:Connect(function()
+    VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    task.wait(1)
+    VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
+--// SEA CHECK
+local Sea1, Sea2, Sea3 = false, false, false
+if game.PlaceId == 2753915549 then
+    Sea1 = true
+elseif game.PlaceId == 4442272183 then
+    Sea2 = true
+elseif game.PlaceId == 7449423635 then
+    Sea3 = true
+end
+
+--// SPLASH SCREEN
+do
+    local gui = Instance.new("ScreenGui", CoreGui)
+    gui.Name = "GravitySplash"
+
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.fromScale(1,1)
+    frame.BackgroundColor3 = Color3.fromRGB(10,10,10)
+
+    local logo = Instance.new("ImageLabel", frame)
+    logo.Size = UDim2.fromOffset(200,200)
+    logo.Position = UDim2.fromScale(0.5,0.45)
+    logo.AnchorPoint = Vector2.new(0.5,0.5)
+    logo.BackgroundTransparency = 1
+    logo.Image = "rbxassetid://130297704555355"
+
+    local text = Instance.new("TextLabel", frame)
+    text.Size = UDim2.fromOffset(400,50)
+    text.Position = UDim2.fromScale(0.5,0.65)
+    text.AnchorPoint = Vector2.new(0.5,0.5)
+    text.Text = "VHUU HUB"
+    text.TextColor3 = Color3.fromRGB(170,0,255)
+    text.TextSize = 32
+    text.Font = Enum.Font.GothamBold
+    text.BackgroundTransparency = 1
+
+    TweenService:Create(frame, TweenInfo.new(1.2), {BackgroundTransparency = 1}):Play()
+    task.wait(2)
+    gui:Destroy()
+end
+
+--// UI - FLUENT
+local Fluent = loadstring(game:HttpGet(
+    "https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"
+))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Vhuu Hub",
+    SubTitle = "Blox Fruits | Rebuild",
+    TabWidth = 160,
+    Theme = "Dark",
+    Acrylic = true,
+    Size = UDim2.fromOffset(560, 360),
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main Farm" }),
+    Combat = Window:AddTab({ Title = "Combat" }),
+    Boss = Window:AddTab({ Title = "Boss" }),
+    Raid = Window:AddTab({ Title = "Raid" }),
+    Fruit = Window:AddTab({ Title = "Fruit" }),
+    Settings = Window:AddTab({ Title = "Settings" })
+}
+
+--// GLOBAL FLAGS
+getgenv().AutoQuest = false
+getgenv().AutoBoss = false
+getgenv().AutoRaid = false
+getgenv().AutoFruit = false
+getgenv().FastAttack = true
+
+--// QUEST DATA
+local function GetQuestData()
+    local Lv = LocalPlayer.Data.Level.Value
+
+    if Sea1 then
+        if Lv <= 9 then
+            return "BanditQuest1",1,"Bandit"
+        elseif Lv <= 29 then
+            return "JungleQuest",2,"Gorilla"
+        elseif Lv <= 59 then
+            return "BuggyQuest1",1,"Pirate"
+        elseif Lv <= 99 then
+            return "DesertQuest",1,"Desert Bandit"
+        end
+    elseif Sea2 then
+        if Lv <= 724 then
+            return "Area1Quest",1,"Raider"
+        elseif Lv <= 774 then
+            return "Area1Quest",2,"Mercenary"
+        elseif Lv <= 899 then
+            return "Area2Quest",1,"Swan Pirate"
+        end
+    elseif Sea3 then
+        if Lv <= 1574 then
+            return "PiratePortQuest",1,"Pirate Millionaire"
+        elseif Lv <= 1724 then
+            return "AmazonQuest",1,"Dragon Crew Warrior"
+        end
+    end
+end
+
+--// AUTO QUEST
+task.spawn(function()
+    while task.wait(0.3) do
+        if getgenv().AutoQuest then
+            local quest, level, mob = GetQuestData()
+            if quest then
+                pcall(function()
+                    CommF:InvokeServer("StartQuest", quest, level)
+                end)
+                for _,v in pairs(Workspace.Enemies:GetChildren()) do
+                    if v.Name == mob and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                        LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            v.HumanoidRootPart.CFrame * CFrame.new(0,0,4)
+                        break
+                    end
+                end
+            end
+        end
+    end
+end)
+
+--// AUTO BOSS
+task.spawn(function()
+    while task.wait(0.5) do
+        if getgenv().AutoBoss then
+            for _,boss in pairs(Workspace.Enemies:GetChildren()) do
+                if boss:FindFirstChild("Humanoid")
+                and boss.Humanoid.Health > 0
+                and boss.Name:lower():find("boss") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        boss.HumanoidRootPart.CFrame * CFrame.new(0,0,6)
+                end
+            end
+        end
+    end
+end)
+
+--// AUTO RAID
+task.spawn(function()
+    while task.wait(1) do
+        if getgenv().AutoRaid then
+            pcall(function()
+                CommF:InvokeServer("RaidsNpc","Select","Flame")
+                CommF:InvokeServer("RaidsNpc","Start")
+            end)
+        end
+    end
+end)
+
+--// AUTO FRUIT
+task.spawn(function()
+    while task.wait(1) do
+        if getgenv().AutoFruit then
+            for _,v in pairs(Workspace:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("Handle") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
+                end
+            end
+        end
+    end
+end)
+
+--// FAST ATTACK (GRAVITY)
+task.spawn(function()
+    local Net = require(ReplicatedStorage.Modules.Net)
+    while task.wait(0.05) do
+        if getgenv().FastAttack then
+            pcall(function()
+                Net["RE/RegisterAttack"]:FireServer()
+                Net["RE/RegisterHit"]:FireServer()
+            end)
+        end
+    end
+end)
+
+--// UI TOGGLES
+Tabs.Main:AddToggle("AutoQuest", {
+    Title = "Auto Quest (All Sea)",
+    Callback = function(v) getgenv().AutoQuest = v end
+})
+
+Tabs.Combat:AddToggle("FastAttack", {
+    Title = "Fast Attack (Gravity)",
+    Default = true,
+    Callback = function(v) getgenv().FastAttack = v end
+})
+
+Tabs.Boss:AddToggle("AutoBoss", {
+    Title = "Auto Boss",
+    Callback = function(v) getgenv().AutoBoss = v end
+})
+
+Tabs.Raid:AddToggle("AutoRaid", {
+    Title = "Auto Raid",
+    Callback = function(v) getgenv().AutoRaid = v end
+})
+
+Tabs.Fruit:AddToggle("AutoFruit", {
+    Title = "Auto Collect Fruit",
+    Callback = function(v) getgenv().AutoFruit = v end
+})
+
+Tabs.Settings:AddButton({
+    Title = "Rejoin Server",
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
+    end
+})
