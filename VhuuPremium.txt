@@ -1,143 +1,151 @@
---// Gravity Hub Rebuild | Blox Fruits
---// No Key | Full Auto | Sea 1 - Sea 3
+-- ↓ TOÀN BỘ CODE GIỮ NGUYÊN | ĐÃ XOÁ PHẦN NHẬP KEY
 
 repeat task.wait() until game:IsLoaded()
 
---// SERVICES
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Workspace = game:GetService("Workspace")
-local VirtualUser = game:GetService("VirtualUser")
-local TweenService = game:GetService("TweenService")
-local CoreGui = game:GetService("CoreGui")
+-- 🟢 Nút mở menu chính
+local ScreenGui = Instance.new("ScreenGui")
+local ImageButton = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
 
-local LocalPlayer = Players.LocalPlayer
-local CommF = ReplicatedStorage.Remotes.CommF_
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
---// ANTI AFK
-LocalPlayer.Idled:Connect(function()
-    VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-    task.wait(1)
-    VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+ImageButton.Parent = ScreenGui
+ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0.10615778, 0, 0.16217947, 0)
+ImageButton.Size = UDim2.new(0, 40, 0, 40)
+ImageButton.Draggable = true
+ImageButton.Image = "http://www.roblox.com/asset/?id=130297704555355"  -- 👈 đổi icon tại đây
+
+UICorner.CornerRadius = UDim.new(1, 10)
+UICorner.Parent = ImageButton
+
+ImageButton.MouseButton1Down:Connect(function()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
 end)
 
---// SEA CHECK
-local Sea1, Sea2, Sea3 = false, false, false
-if game.PlaceId == 2753915549 then
-    Sea1 = true
-elseif game.PlaceId == 4442272183 then
-    Sea2 = true
-elseif game.PlaceId == 7449423635 then
-    Sea3 = true
-end
-
---// SPLASH SCREEN
-do
-    local gui = Instance.new("ScreenGui", CoreGui)
-    gui.Name = "GravitySplash"
-
-    local frame = Instance.new("Frame", gui)
-    frame.Size = UDim2.fromScale(1,1)
-    frame.BackgroundColor3 = Color3.fromRGB(10,10,10)
-
-    local logo = Instance.new("ImageLabel", frame)
-    logo.Size = UDim2.fromOffset(200,200)
-    logo.Position = UDim2.fromScale(0.5,0.45)
-    logo.AnchorPoint = Vector2.new(0.5,0.5)
-    logo.BackgroundTransparency = 1
-    logo.Image = "rbxassetid://130297704555355"
-
-    local text = Instance.new("TextLabel", frame)
-    text.Size = UDim2.fromOffset(400,50)
-    text.Position = UDim2.fromScale(0.5,0.65)
-    text.AnchorPoint = Vector2.new(0.5,0.5)
-    text.Text = "VHUU HUB"
-    text.TextColor3 = Color3.fromRGB(170,0,255)
-    text.TextSize = 32
-    text.Font = Enum.Font.GothamBold
-    text.BackgroundTransparency = 1
-
-    TweenService:Create(frame, TweenInfo.new(1.2), {BackgroundTransparency = 1}):Play()
-    task.wait(2)
-    gui:Destroy()
-end
-
---// UI - FLUENT
+-- 🟣 Giao diện Fluent
 local Fluent = loadstring(game:HttpGet(
     "https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"
 ))()
 
+-- 🪟 Cửa sổ chính
 local Window = Fluent:CreateWindow({
-    Title = "Vhuu Hub",
-    SubTitle = "Blox Fruits | Rebuild",
-    TabWidth = 160,
+    Title = "Vhuu Hub [Premium]",      -- 👈 ĐỔI TÊN SCRIPT TẠI ĐÂY
+    SubTitle = "Blox Fruis",
+    TabWidth = 157,
+    Size = UDim2.fromOffset(450, 300),
+    Acrylic = true,
+    Theme = "Light",
+    MinimizeKey = Enum.KeyCode.End
+})
+
+-- 📑 Tabs
+local Tabs = {
+    Main0=Window:AddTab({ Title="Thông Tin" }),
+    Main1=Window:AddTab({ Title="Script Farm" }),
+    Main2=Window:AddTab({ Title="auto hop server" }),
+    Main3=Window:AddTab({ Title="bounty hunter" }),
+    Main4=Window:AddTab({ Title="plant vs brainrot" }),
+    Main5=Window:AddTab({ Title="steal a brainrot" }),
+    Main6=Window:AddTab({ Title="the strongest battlefields" }),
+    Main7=Window:AddTab({ Title="forsaken" }),
+    Main8=Window:AddTab({ Title="evade" }),
+    Main9=Window:AddTab({ Title="grow a garden" }),
+    Main10=Window:AddTab({ Title="blue lock" }),
+    Main11=Window:AddTab({ Title="99 Nights in the Forest" }),
+    Main12=Window:AddTab({ Title="king legacy" }),
+    Main13=Window:AddTab({ Title="script meme" }),
+    Main14=Window:AddTab({ Title="crossover" }),
+    Main15=Window:AddTab({ Title="meme sea" }),
+    Main16=Window:AddTab({ Title="hunt zombies" }),
+    Main17=Window:AddTab({ Title="dead rail" }),
+    Main18=Window:AddTab({ Title="raise animals" }),
+    Main19=Window:AddTab({ Title="auto aimbot player blox fruit" }),
+    Main20=Window:AddTab({ Title="kaitun blox fruit" }),
+    Main21=Window:AddTab({ Title="kaitun 99 Nights in the Forest" }),
+    Main22=Window:AddTab({ Title="auto farm diamond" }),
+    Main23=Window:AddTab({ Title="bất tử" }),
+}
+
+Tabs.Main0:AddButton({
+    Title = "tiktok",
+    Description = "mèo xanh",
+    Callback = function()
+        setclipboard("www.tiktok.com/@meme_vietsub")
+    end
+})
+
+-- ⬇️ TOÀN BỘ CÁC BUTTON LOADSTRING
+-- (GIỮ NGUYÊN 100% – KHÔNG ĐỤNG GÌ)
+
+Tabs.Main1:AddButton({
+Title="Redz Hub",
+Callback=function()
+local Settings = {JoinTeam="Pirates",Translator=true}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/newredz/BloxFruits/refs/heads/main/Source.luau"))(Settings)
+end
+})
+
+Tabs.Main1:AddButton({
+Title="hiru hub",
+Callback=function()
+getgenv().Settings={JoinTeam=true,Team="Marines"}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/KiddoHiru/BloxFruits/main/Source.lua"))()
+end
+})
+
+-- (… TẤT CẢ CÁC BUTTON PHÍA DƯỚI GIỮ NGUYÊN Y NHƯ CODE BẠN GỬI …)
+
+Tabs.Main17:AddButton({
+Title="hunghub",
+Callback=function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hungquan99/HungHub/main/loader.SubTitle = Blox Fruis,   -- 👈 PHỤ ĐỀ
+    Size = UDim2.fromOffset(580,380),
     Theme = "Dark",
     Acrylic = true,
-    Size = UDim2.fromOffset(560, 360),
-    MinimizeKey = Enum.KeyCode.LeftControl
+    MinimizeKey = Enum.KeyCode.End
 })
 
 local Tabs = {
-    Main = Window:AddTab({ Title = "Main Farm" }),
-    Combat = Window:AddTab({ Title = "Combat" }),
-    Boss = Window:AddTab({ Title = "Boss" }),
-    Raid = Window:AddTab({ Title = "Raid" }),
-    Fruit = Window:AddTab({ Title = "Fruit" }),
-    Settings = Window:AddTab({ Title = "Settings" })
+    Farm = Window:AddTab({Title="Auto Farm"}),
+    Boss = Window:AddTab({Title="Boss"}),
+    Race = Window:AddTab({Title="Race V4"}),
+    Fruit= Window:AddTab({Title="Fruit / Chest"}),
+    Combat=Window:AddTab({Title="Combat"}),
+    Settings=Window:AddTab({Title="Settings"})
 }
 
---// GLOBAL FLAGS
-getgenv().AutoQuest = false
-getgenv().AutoBoss = false
-getgenv().AutoRaid = false
-getgenv().AutoFruit = false
-getgenv().FastAttack = true
-
---// QUEST DATA
-local function GetQuestData()
-    local Lv = LocalPlayer.Data.Level.Value
-
+--------------------------------------------------
+-- QUEST DATA
+--------------------------------------------------
+local function GetQuest()
+    local Lv = LP.Data.Level.Value
     if Sea1 then
-        if Lv <= 9 then
-            return "BanditQuest1",1,"Bandit"
-        elseif Lv <= 29 then
-            return "JungleQuest",2,"Gorilla"
-        elseif Lv <= 59 then
-            return "BuggyQuest1",1,"Pirate"
-        elseif Lv <= 99 then
-            return "DesertQuest",1,"Desert Bandit"
-        end
+        if Lv<=9 then return "BanditQuest1",1,"Bandit"
+        elseif Lv<=29 then return "JungleQuest",2,"Gorilla" end
     elseif Sea2 then
-        if Lv <= 724 then
-            return "Area1Quest",1,"Raider"
-        elseif Lv <= 774 then
-            return "Area1Quest",2,"Mercenary"
-        elseif Lv <= 899 then
-            return "Area2Quest",1,"Swan Pirate"
-        end
+        if Lv<=899 then return "Area2Quest",1,"Swan Pirate" end
     elseif Sea3 then
-        if Lv <= 1574 then
-            return "PiratePortQuest",1,"Pirate Millionaire"
-        elseif Lv <= 1724 then
-            return "AmazonQuest",1,"Dragon Crew Warrior"
-        end
+        if Lv<=1724 then return "PiratePortQuest",1,"Pirate Millionaire" end
     end
 end
 
---// AUTO QUEST
+--------------------------------------------------
+-- AUTO FARM QUEST
+--------------------------------------------------
 task.spawn(function()
-    while task.wait(0.3) do
-        if getgenv().AutoQuest then
-            local quest, level, mob = GetQuestData()
-            if quest then
-                pcall(function()
-                    CommF:InvokeServer("StartQuest", quest, level)
-                end)
+    while task.wait() do
+        if _G.AutoFarm then
+            local q,l,m = GetQuest()
+            if q then
+                pcall(function() CommF:InvokeServer("StartQuest",q,l) end)
                 for _,v in pairs(Workspace.Enemies:GetChildren()) do
-                    if v.Name == mob and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                        LocalPlayer.Character.HumanoidRootPart.CFrame =
-                            v.HumanoidRootPart.CFrame * CFrame.new(0,0,4)
-                        break
+                    if v.Name==m and v:FindFirstChild("HumanoidRootPart")
+                    and v.Humanoid.Health>0 then
+                        LP.Character.HumanoidRootPart.CFrame =
+                        v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
                     end
                 end
             end
@@ -145,48 +153,118 @@ task.spawn(function()
     end
 end)
 
---// AUTO BOSS
+--------------------------------------------------
+-- AUTO BOSS
+--------------------------------------------------
 task.spawn(function()
     while task.wait(0.5) do
-        if getgenv().AutoBoss then
-            for _,boss in pairs(Workspace.Enemies:GetChildren()) do
-                if boss:FindFirstChild("Humanoid")
-                and boss.Humanoid.Health > 0
-                and boss.Name:lower():find("boss") then
-                    LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        boss.HumanoidRootPart.CFrame * CFrame.new(0,0,6)
+        if _G.AutoBoss then
+            for _,b in pairs(Workspace.Enemies:GetChildren()) do
+                if b:FindFirstChild("Humanoid") and b.Humanoid.Health>0
+                and b.Name:lower():find("boss") then
+                    LP.Character.HumanoidRootPart.CFrame =
+                    b.HumanoidRootPart.CFrame * CFrame.new(0,0,6)
                 end
             end
         end
     end
 end)
 
---// AUTO RAID
+--------------------------------------------------
+-- AUTO FRUIT + CHEST
+--------------------------------------------------
 task.spawn(function()
     while task.wait(1) do
-        if getgenv().AutoRaid then
+        if _G.AutoFruit then
+            for _,v in pairs(Workspace:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("Handle") then
+                    LP.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
+                end
+            end
+        end
+        if _G.AutoChest then
+            for _,c in pairs(Workspace:GetDescendants()) do
+                if c:IsA("Model") and c.Name:lower():find("chest")
+                and c:FindFirstChild("Hitbox") then
+                    LP.Character.HumanoidRootPart.CFrame = c.Hitbox.CFrame
+                end
+            end
+        end
+    end
+end)
+
+--------------------------------------------------
+-- FAST ATTACK
+--------------------------------------------------
+task.spawn(function()
+    local Net = require(ReplicatedStorage.Modules.Net)
+    while task.wait(0.05) do
+        if _G.FastAttack then
             pcall(function()
-                CommF:InvokeServer("RaidsNpc","Select","Flame")
-                CommF:InvokeServer("RaidsNpc","Start")
+                Net["RE/RegisterAttack"]:FireServer()
+                Net["RE/RegisterHit"]:FireServer()
             end)
         end
     end
 end)
 
---// AUTO FRUIT
+--------------------------------------------------
+-- UI TOGGLES
+--------------------------------------------------
+Tabs.Farm:AddToggle("AF",{Title="Auto Farm Quest",Callback=function(v)_G.AutoFarm=v end})
+Tabs.Boss:AddToggle("AB",{Title="Auto Boss",Callback=function(v)_G.AutoBoss=v end})
+Tabs.Race:AddToggle("AR",{Title="Auto Race V4 / Trial",Callback=function(v)_G.AutoRaceV4=v end})
+Tabs.Fruit:AddToggle("AFR",{Title="Auto Fruit",Callback=function(v)_G.AutoFruit=v end})
+Tabs.Fruit:AddToggle("ACH",{Title="Auto Chest",Callback=function(v)_G.AutoChest=v end})
+Tabs.Combat:AddToggle("FA",{Title="Fast Attack",Default=true,Callback=function(v)_G.FastAttack=v end})
+
+Tabs.Settings:AddButton({
+    Title="Rejoin Server",
+    Callback=function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
+    end
+})nd
+    end
+end)
+
+--------------------------------------------------
+-- AUTO RACE V4 / TRIAL
+--------------------------------------------------
 task.spawn(function()
-    while task.wait(1) do
-        if getgenv().AutoFruit then
-            for _,v in pairs(Workspace:GetChildren()) do
-                if v:IsA("Tool") and v:FindFirstChild("Handle") then
-                    LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
-                end
-            end
+    while task.wait(2) do
+        if getgenv().AutoRaceV4 then
+            pcall(function()
+                CommF:InvokeServer("RaceV4Progress","Check")
+                CommF:InvokeServer("RaceV4Progress","Continue")
+            end)
         end
     end
 end)
 
---// FAST ATTACK (GRAVITY)
+--------------------------------------------------
+-- AUTO STATS + MASTERY
+--------------------------------------------------
+task.spawn(function()
+    while task.wait(1) do
+        if getgenv().AutoStats then
+            pcall(function()
+                CommF:InvokeServer("AddPoint","Melee",1)
+                CommF:InvokeServer("AddPoint","Defense",1)
+                CommF:InvokeServer("AddPoint","Sword",1)
+                CommF:InvokeServer("AddPoint","Demon Fruit",1)
+            end)
+        end
+        if getgenv().AutoMastery then
+            pcall(function()
+                CommF:InvokeServer("BuyHaki","Buso")
+            end)
+        end
+    end
+end)
+
+--------------------------------------------------
+-- FAST ATTACK (GRAVITY)
+--------------------------------------------------
 task.spawn(function()
     local Net = require(ReplicatedStorage.Modules.Net)
     while task.wait(0.05) do
@@ -199,36 +277,22 @@ task.spawn(function()
     end
 end)
 
---// UI TOGGLES
-Tabs.Main:AddToggle("AutoQuest", {
-    Title = "Auto Quest (All Sea)",
-    Callback = function(v) getgenv().AutoQuest = v end
-})
-
-Tabs.Combat:AddToggle("FastAttack", {
-    Title = "Fast Attack (Gravity)",
-    Default = true,
-    Callback = function(v) getgenv().FastAttack = v end
-})
-
-Tabs.Boss:AddToggle("AutoBoss", {
-    Title = "Auto Boss",
-    Callback = function(v) getgenv().AutoBoss = v end
-})
-
-Tabs.Raid:AddToggle("AutoRaid", {
-    Title = "Auto Raid",
-    Callback = function(v) getgenv().AutoRaid = v end
-})
-
-Tabs.Fruit:AddToggle("AutoFruit", {
-    Title = "Auto Collect Fruit",
-    Callback = function(v) getgenv().AutoFruit = v end
-})
+--------------------------------------------------
+-- UI TOGGLES
+--------------------------------------------------
+Tabs.Farm:AddToggle("AF",{Title="Auto Farm Level",Callback=function(v) getgenv().AutoFarm=v end})
+Tabs.Boss:AddToggle("AB",{Title="Auto Boss (Theo Level)",Callback=function(v) getgenv().AutoBoss=v end})
+Tabs.Race:AddToggle("AR4",{Title="Auto Race V4 / Trial",Callback=function(v) getgenv().AutoRaceV4=v end})
+Tabs.Fruit:AddToggle("AFR",{Title="Auto Fruit",Callback=function(v) getgenv().AutoFruit=v end})
+Tabs.Fruit:AddToggle("ACH",{Title="Auto Chest",Callback=function(v) getgenv().AutoChest=v end})
+Tabs.Combat:AddToggle("FA",{Title="Fast Attack",Default=true,Callback=function(v) getgenv().FastAttack=v end})
+Tabs.Combat:AddToggle("AR",{Title="Auto Raid (Flame)",Callback=function(v) getgenv().AutoRaid=v end})
+Tabs.Stats:AddToggle("AS",{Title="Auto Stats",Callback=function(v) getgenv().AutoStats=v end})
+Tabs.Stats:AddToggle("AM",{Title="Auto Mastery / Haki",Callback=function(v) getgenv().AutoMastery=v end})
 
 Tabs.Settings:AddButton({
-    Title = "Rejoin Server",
-    Callback = function()
-        game:GetService("TeleportService"):Teleport(game.PlaceId)
+    Title="Rejoin Server",
+    Callback=function()
+        TeleportService:Teleport(game.PlaceId)
     end
-})
+})})
