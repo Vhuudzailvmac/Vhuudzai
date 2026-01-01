@@ -2019,7 +2019,7 @@
 	local toggleButton = Instance.new("ImageButton")
 	toggleButton.Size = UDim2.new(0, 50, 0, 50)
 	toggleButton.Position = UDim2.new(0.15, 0, 0.15, 0)
-	toggleButton.Image = "rbxassetid://94586471220093"
+	toggleButton.Image = "rbxassetid://124766123840450"
 	toggleButton.ScaleType = Enum.ScaleType.Fit
 	toggleButton.BackgroundTransparency = 1
 	toggleButton.Parent = screenGui
@@ -2072,9 +2072,6 @@
 		end
 	end)
 	local Tabs = {
-		Discord = Window:AddTab({
-			Title = "Disord"
-		}),
 		Server = Window:AddTab({
 			Title = "Server"
 		}),
